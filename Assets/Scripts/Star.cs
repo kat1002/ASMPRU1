@@ -4,7 +4,7 @@ public class Star : MonoBehaviour
 {
     private Rigidbody2D rigidbody2d;
 
-    [SerializeField] private int scoreEarned = 5;
+    [SerializeField] private int scoreEarned = 1;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float maxLifeTime = 10f;
 

@@ -188,6 +188,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eba7b49f6a39f546ae927f1c9b7d63b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreEarned: 5
+  scoreEarned: 1
   speed: 10
   maxLifeTime: 10

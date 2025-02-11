@@ -3,6 +3,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] public int Score { get; private set; }
+    [SerializeField] private AsteroidSpawner spawner;
+
+    [SerializeField] private SpriteRenderer bgSpriteRenderer;
+    [SerializeField] private Sprite[] bg;
 
     private void OnEnable()
     {
@@ -16,7 +20,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Pause();
+        bgSpriteRenderer.sprite = bg[Random.Range(0, bg.Length)];
+        ResumeGame();
         Score = 0;
         AddScore(0);
     }
@@ -26,12 +31,12 @@ public class GameManager : MonoBehaviour
     {
         GameplayEvents.OnEarnScore.RemoveListener(AddScore);
         GameplayEvents.OnGamePause.RemoveListener(PauseGame);
-        GameplayEvents.OnGameUnPause.RemoveListener(Pause);
+        GameplayEvents.OnGameUnPause.RemoveListener(ResumeGame);
         GameplayEvents.OnGameOver.RemoveListener(PauseGame);
 
         GameplayEvents.OnEarnScore.AddListener(AddScore);
         GameplayEvents.OnGamePause.AddListener(PauseGame);
-        GameplayEvents.OnGameUnPause.AddListener(Pause);
+        GameplayEvents.OnGameUnPause.AddListener(ResumeGame);
         GameplayEvents.OnGameOver.AddListener(PauseGame);
     }
 
@@ -39,7 +44,7 @@ public class GameManager : MonoBehaviour
     {
         GameplayEvents.OnEarnScore.RemoveListener(AddScore);
         GameplayEvents.OnGamePause.RemoveListener(PauseGame);
-        GameplayEvents.OnGameUnPause.RemoveListener(Pause);
+        GameplayEvents.OnGameUnPause.RemoveListener(ResumeGame);
         GameplayEvents.OnGameOver.RemoveListener(PauseGame);
     }
     #endregion
@@ -48,7 +53,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    private void Pause()
+    private void ResumeGame()
     {
         Time.timeScale = 1f;
     }
@@ -57,5 +62,10 @@ public class GameManager : MonoBehaviour
     {
         Score += scoreToAdd;
         GameplayEvents.OnUpdateScore?.Invoke(Score);
+
+        if (Score % 10 == 0)
+        {
+            spawner.SpawnAmount += 1;
+        }
     }
 }
