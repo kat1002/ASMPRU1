@@ -33,6 +33,7 @@ public class Asteroid : MonoBehaviour
     {
         if (collision.gameObject.tag == "Bullet")
         {
+            GameplayEvents.OnExplosion?.Invoke(this.transform);
             Destroy(this.gameObject);
         }
     }

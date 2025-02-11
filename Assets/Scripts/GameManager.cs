@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpriteRenderer bgSpriteRenderer;
     [SerializeField] private Sprite[] bg;
 
+    [SerializeField] private ParticleSystem explosionParticle;
+
     private void OnEnable()
     {
         AddEvents();
@@ -33,11 +35,13 @@ public class GameManager : MonoBehaviour
         GameplayEvents.OnGamePause.RemoveListener(PauseGame);
         GameplayEvents.OnGameUnPause.RemoveListener(ResumeGame);
         GameplayEvents.OnGameOver.RemoveListener(PauseGame);
+        GameplayEvents.OnExplosion.RemoveListener(Explosion);
 
         GameplayEvents.OnEarnScore.AddListener(AddScore);
         GameplayEvents.OnGamePause.AddListener(PauseGame);
         GameplayEvents.OnGameUnPause.AddListener(ResumeGame);
         GameplayEvents.OnGameOver.AddListener(PauseGame);
+        GameplayEvents.OnExplosion.AddListener(Explosion);
     }
 
     private void RemoveEvents()
@@ -46,6 +50,7 @@ public class GameManager : MonoBehaviour
         GameplayEvents.OnGamePause.RemoveListener(PauseGame);
         GameplayEvents.OnGameUnPause.RemoveListener(ResumeGame);
         GameplayEvents.OnGameOver.RemoveListener(PauseGame);
+        GameplayEvents.OnExplosion.RemoveListener(Explosion);
     }
     #endregion
     private void PauseGame()
@@ -67,5 +72,11 @@ public class GameManager : MonoBehaviour
         {
             spawner.SpawnAmount += 1;
         }
+    }
+
+    private void Explosion(Transform transform)
+    {
+        explosionParticle.transform.position = transform.position;
+        explosionParticle.Play();
     }
 }

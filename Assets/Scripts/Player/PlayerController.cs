@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Asteroid")
         {
+            GameplayEvents.OnExplosion?.Invoke(this.transform);
             Destroy(this.gameObject);
             GameplayEvents.OnGameOver?.Invoke();
         }
